@@ -1,0 +1,43 @@
+﻿@using Blazor.CSS.Data
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+                <th class="max-column">Detail</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                    <td class="max-column">
+                        <div class="grid-overflow">
+                            <div class="grid-overflowinner">
+                                @($"The Weather Forecast for this {forecast.Date.DayOfWeek}, the {forecast.Date.Day} of the month {forecast.Date.Month} in the year of our Lord {forecast.Date.Year} is {forecast.Summary}")
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+
+    [Parameter] public WeatherForecast[] forecasts { get; set; } = null;
+
+}
