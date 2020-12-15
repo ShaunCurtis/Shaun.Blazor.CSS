@@ -686,74 +686,6 @@ html:lang(ko),
     .btn.btn-error.loading::after {
       border-bottom-color: #fff;
       border-left-color: #fff; }
-  .btn.btn-save {
-    background: #32b643;
-    border-color: #2faa3f;
-    color: #fff; }
-    .btn.btn-save:focus {
-      box-shadow: 0 0 0 0.1rem rgba(50, 182, 67, 0.2); }
-    .btn.btn-save:focus, .btn.btn-save:hover {
-      background: #30ae40;
-      border-color: #2da23c;
-      color: #fff; }
-    .btn.btn-save:active, .btn.btn-save.active {
-      background: #2a9a39;
-      border-color: #278e34;
-      color: #fff; }
-    .btn.btn-save.loading::after {
-      border-bottom-color: #fff;
-      border-left-color: #fff; }
-  .btn.btn-exit {
-    background: #66758c;
-    border-color: #606e83;
-    color: #fff; }
-    .btn.btn-exit:focus {
-      box-shadow: 0 0 0 0.1rem rgba(102, 117, 140, 0.2); }
-    .btn.btn-exit:focus, .btn.btn-exit:hover {
-      background: #627086;
-      border-color: #5b697d;
-      color: #fff; }
-    .btn.btn-exit:active, .btn.btn-exit.active {
-      background: #576477;
-      border-color: #515c6e;
-      color: #fff; }
-    .btn.btn-exit.loading::after {
-      border-bottom-color: #fff;
-      border-left-color: #fff; }
-  .btn.btn-brand {
-    background: #7952b3;
-    border-color: #714bab;
-    color: #fff; }
-    .btn.btn-brand:focus {
-      box-shadow: 0 0 0 0.1rem rgba(121, 82, 179, 0.2); }
-    .btn.btn-brand:focus, .btn.btn-brand:hover {
-      background: #744dae;
-      border-color: #6d48a4;
-      color: #fff; }
-    .btn.btn-brand:active, .btn.btn-brand.active {
-      background: #68459d;
-      border-color: #614092;
-      color: #fff; }
-    .btn.btn-brand.loading::after {
-      border-bottom-color: #fff;
-      border-left-color: #fff; }
-  .btn.btn-delete {
-    background: #e85600;
-    border-color: #d95000;
-    color: #fff; }
-    .btn.btn-delete:focus {
-      box-shadow: 0 0 0 0.1rem rgba(232, 86, 0, 0.2); }
-    .btn.btn-delete:focus, .btn.btn-delete:hover {
-      background: #de5200;
-      border-color: #cf4d00;
-      color: #fff; }
-    .btn.btn-delete:active, .btn.btn-delete.active {
-      background: #c44900;
-      border-color: #b54300;
-      color: #fff; }
-    .btn.btn-delete.loading::after {
-      border-bottom-color: #fff;
-      border-left-color: #fff; }
   .btn.btn-link {
     background: transparent;
     border-color: transparent;
@@ -2876,3 +2808,75 @@ a.text-error:visited {
   hyphens: auto;
   word-break: break-word;
   word-wrap: break-word; }
+
+.btn.btn-save {
+  background: #32b643;
+  border-color: #2faa3f;
+  color: #fff; }
+  .btn.btn-save:focus {
+    box-shadow: 0 0 0 0.1rem rgba(50, 182, 67, 0.2); }
+  .btn.btn-save:focus, .btn.btn-save:hover {
+    background: #30ae40;
+    border-color: #2da23c;
+    color: #fff; }
+  .btn.btn-save:active, .btn.btn-save.active {
+    background: #2a9a39;
+    border-color: #278e34;
+    color: #fff; }
+  .btn.btn-save.loading::after {
+    border-bottom-color: #fff;
+    border-left-color: #fff; }
+
+.btn.btn-exit {
+  background: #66758c;
+  border-color: #606e83;
+  color: #fff; }
+  .btn.btn-exit:focus {
+    box-shadow: 0 0 0 0.1rem rgba(102, 117, 140, 0.2); }
+  .btn.btn-exit:focus, .btn.btn-exit:hover {
+    background: #627086;
+    border-color: #5b697d;
+    color: #fff; }
+  .btn.btn-exit:active, .btn.btn-exit.active {
+    background: #576477;
+    border-color: #515c6e;
+    color: #fff; }
+  .btn.btn-exit.loading::after {
+    border-bottom-color: #fff;
+    border-left-color: #fff; }
+
+.btn.btn-brand {
+  background: #7952b3;
+  border-color: #714bab;
+  color: #fff; }
+  .btn.btn-brand:focus {
+    box-shadow: 0 0 0 0.1rem rgba(121, 82, 179, 0.2); }
+  .btn.btn-brand:focus, .btn.btn-brand:hover {
+    background: #744dae;
+    border-color: #6d48a4;
+    color: #fff; }
+  .btn.btn-brand:active, .btn.btn-brand.active {
+    background: #68459d;
+    border-color: #614092;
+    color: #fff; }
+  .btn.btn-brand.loading::after {
+    border-bottom-color: #fff;
+    border-left-color: #fff; }
+
+.btn.btn-delete {
+  background: #e85600;
+  border-color: #d95000;
+  color: #fff; }
+  .btn.btn-delete:focus {
+    box-shadow: 0 0 0 0.1rem rgba(232, 86, 0, 0.2); }
+  .btn.btn-delete:focus, .btn.btn-delete:hover {
+    background: #de5200;
+    border-color: #cf4d00;
+    color: #fff; }
+  .btn.btn-delete:active, .btn.btn-delete.active {
+    background: #c44900;
+    border-color: #b54300;
+    color: #fff; }
+  .btn.btn-delete.loading::after {
+    border-bottom-color: #fff;
+    border-left-color: #fff; }

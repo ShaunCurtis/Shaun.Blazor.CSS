@@ -1,26 +1,28 @@
 ﻿# Working with CSS in Blazor
 
-This article takes a look at how CSS is deployed in Blazor and Net5.  It covers three aspects:
+This article takes a look at how CSS is deployed in Blazor and Net5.  It covers:
 
-1. Customizing the deployed BootStrap
+1. Customizing the deployed BootStrap.
 2. The new Scoped CSS functionality
 3. How to switch to a different CSS Framework.
 
 Please note that this article is aimed at programmers relatively new to DotNetCore and Blazor, and assumes you have some knowledge of SASS.  The article also assumes you're using Visual Studio 2019 - I use the Community Edition.
 
+The code is avalable at [Blazor.CSS](https://github.com/ShaunCurtis/Blazor.CSS) on GitHub.
+
 ## Getting Started
 
-1. Create a new Blazor Application.  I've used Server, but this is doesn't matter which.
-2. Run it to make sure it runs.
-3. Install the **Web Compiler** extension.  Extensions > Manage Extensions.  You'll need to restart Visual Studio to complete the installation.
+1. Create a new Blazor Application.  I've used Server in the supplied code, but this is doesn't matter which.
+2. Run the site to make sure it works.
+3. Install the [**Web Compiler**](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebCompiler)  extension.  Extensions > Manage Extensions.  You'll need to restart Visual Studio to complete the installation.
 
 ## Set up SASS
 
-1. Add a folder to the project called SASS.
-2. Copy the *wwwroot/css/site.css* file to *SASS* and rename it *custom.scss*.
-2. Add an SASS file to the folder - *site.scss*.
+1. Add folder *SASS* to the project.
+2. Move *wwwroot/css/site.css* file to *SASS* and rename it *custom.scss*.
+2. Add *site.scss* to the folder.
 3. Right mouse click on the file > Web Compiler > Compile File.
-4. This will add a *compilerconfig.json* file in the root of the project.  This is the file that controls **Web Compiler**.
+4. This will add a *compilerconfig.json* file to the project.  This controls **Web Compiler**.
 
 *compilerconfig.json* will look like this:
 ```json
@@ -47,19 +49,17 @@ A new *site.css* should appear in *wwwroot/css*.  There'll be nothing in it beca
 
 ## Build Bootstrap
 
-We need to do is move the Bootstrap build process into the application.
+To move the Bootstrap build process into the application:
 
 1. Add a *Bootstrap* folder to *SASS*. 
 2. Add a *custom* folder to *Bootstrap*.
 3. Download the Bootstrap Source from the Bootstrap site and copy the SCSS folder to *Bootstrap*.
 
-The full SASS folder (including the Spectre and other files that we will add later) should look like this:
+    The full SASS folder (including the Spectre and other files that we will add later) should look like this:
 
 ![SASS folder](images/sass-folder.png)
 
-It's now time to build the custom Bootstrap.
-
-Edit *SASS/site.scss*.
+4. Edit *SASS/site.scss*.
 
 ```scss
 /* Source SASS file to build custom Bootstrap site file */
@@ -69,11 +69,11 @@ Edit *SASS/site.scss*.
 /* This is the original site.css file that contains the site specific customizations*/
 @import "custom.scss";
 ```
-Save and Web Compiler will compile a new site.css.  Watch the status in the bottom left corner of Visual Studio. 
+5. Save and Web Compiler will compile a new site.css.  Watch the status in the bottom left corner of Visual Studio. 
 
-Once saved you should have a *site.css and a *site.min.css* in *wwwroot/css*.
+    You should have a *site.css and a *site.min.css* in *wwwroot/css*.
 
-Edit *_Host.cshtml*, and remove the reference to *bootstrap.min.css* - all the css is now compiled into *site.css*.
+6. Edit *_Host.cshtml*, and remove the reference to *bootstrap.min.css* - all the css is now compiled into *site.css*.
 
 ```html
 <head>
@@ -92,19 +92,19 @@ Edit *_Host.cshtml*, and remove the reference to *bootstrap.min.css* - all the c
 
 ```
 
-Run the project and everything should work.
+7. Run the project.
 
 ## Customize Bootstrap
 
-We customize Bootstrap by adding new scss files.  I'm assuming you understand what we're doing.  If not then do a bit of background reading. SASS isn't rocket science.
+We customize Bootstrap by adding new scss files.  I'm assuming you have a basic understanding of SASS.  If not then do a bit of background reading - SASS isn't rocket science.
 
 We'll change some of the colours a little and add some new button styles.
 
-Add *_variables.scss* to *SASS/custom* and add the following content.  You can glance through it to see some of the changes.  Most of these changes are derived from the SB2 Bootstrap template.
+Add *_variables.scss* to *SASS/custom* and add the following content.  You can compare it with the base *SASS/Bootstrap/scss/_variables.scss* to see the differences.  Most of these changes are derived from the SB2 Bootstrap template.
 
 ```scss
 // Override Bootstrap default variables here
-// Do not edit any of the files in /vendor/bootstrap/scss/!
+// Do not edit any of the files in /bootstrap/scss/!
 
 // Color Variables
 // Bootstrap Color Overrides
@@ -425,36 +425,46 @@ Once you save this you should get a compiled *spectre.css in *wwwroot/css*
 
 ### Light Customization
 
-I've edited the SCSS files directly to customize:
+Add *custom* folder to *SASS/Spectre*
 
-*_variables.scss*
+Add *_variables.scss*
 
 ```scss
 // Control colors
-.....
 $brand-color: #7952b3 !default;
 $exit-color: #66758c !default;
 $save-color: #32b643 !default;
 $delete-color: #e85600 !default;
 
 ```
-*_buttons.scss*
+Add *_buttons.scss*
 
 ```scss
 // Button Colors
-...
-&.btn-exit {
-    @include button-variant($exit-color);
-}
-&.btn-brand {
-    @include button-variant($brand-color);
-}
-&.btn-delete {
-    @include button-variant($delete-color);
+.btn {
+    &.btn-exit {
+        @include button-variant($exit-color);
+    }
+    &.btn-brand {
+        @include button-variant($brand-color);
+    }
+    &.btn-delete {
+        @include button-variant($delete-color);
+    }
 }
 ```
 
-Finally change the *_Host.cshtml*
+Edit *SASS/Spectre/spectre.scss*
+
+```scss
+//  Add to the bottom
+
+// Customization
+@import "custom/_variables";
+@import "custom/_buttons";
+```
+
+Finally change *_Host.cshtml* over to the new css.
 
 ```html
 <head>
@@ -469,7 +479,15 @@ Finally change the *_Host.cshtml*
 
 ```
 
-Run the site.  It will look a little different, and need a bit of work to fix.  Go to the Counter page to see the different buttons - Spectre class and Bootstrap class names are very similar.
+Run the site.
+
+It will look a little different, and need a bit of work to fix.  Go to the Counter page to see the different buttons - certain Spectre and Bootstrap class names are very similar such as buttons.
 
 ![spectre buttons](images/spectre-buttons.png)
+
+## Wrap Up
+
+There are many ways to deploy and use CSS in Blazor.  This is one of many, but probably the simplest.
+
+I've covered Scoped CSS here, though I'm not sure how much I'll use it.
 
