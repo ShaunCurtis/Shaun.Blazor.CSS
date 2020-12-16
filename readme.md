@@ -5,8 +5,8 @@ This article describes how to customize the default CSS setup in Blazor, and loo
 It covers:
 
 1. Customizing the deployed BootStrap.
-2. The new Scoped CSS functionality
-3. How to switch to a different CSS Framework.
+2. How to switch to a different CSS Framework.
+3. The new Scoped CSS functionality.
 
 Please note that this article is aimed at programmers relatively new to DotNetCore and Blazor, and assumes you have some knowledge of SASS.  The article also assumes you're using Visual Studio 2019 - I use the Community Edition.
 
@@ -16,17 +16,17 @@ The code is avalable at [Blazor.CSS](https://github.com/ShaunCurtis/Blazor.CSS) 
 
 1. Create a new Blazor Application using Net5.  I've used Server in the supplied code, but there's no difference between Server and WASM.
 2. Run the site to make sure it works.
-3. Install the [**Web Compiler**](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebCompiler)  extension.  Extensions > Manage Extensions.  You'll need to restart Visual Studio to complete the installation.
+3. Install the [Web Compiler](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebCompiler)  extension.  *Extensions > Manage Extensions*.  You'll need to restart Visual Studio to complete the installation.
 
 ## Set up SASS
 
 1. Add folder *SASS* to the project.
 2. Move *wwwroot/css/site.css* file to *SASS* and rename it *custom.scss*.
-2. Add *bootstrap-site.scss* to the folder.
-3. Right mouse click on the file > Web Compiler > Compile File.
-4. This will add a *compilerconfig.json* file to the project.  This controls **Web Compiler**.
+3. Add *bootstrap-site.scss* to the folder.
+4. Right mouse click on the file > Web Compiler > Compile File.
+5. This will add a *compilerconfig.json* file to the project.  This is the configuration file for **Web Compiler**.
 
-*compilerconfig.json* will look like this:
+    *compilerconfig.json* will look like this:
 ```json
 [
   {
@@ -36,7 +36,7 @@ The code is avalable at [Blazor.CSS](https://github.com/ShaunCurtis/Blazor.CSS) 
 ]
 ```
 
-Change this to output the compiled file into the web site:
+6. Change this to output the compiled file into the web site:
 
 ```json
 [
@@ -47,9 +47,9 @@ Change this to output the compiled file into the web site:
 ]
 ```
 
-A new *site.css* should appear in *wwwroot/css*.  There'll be nothing in it because the source file is empty.
+7. A new *site.css* should appear in *wwwroot/css*.  There'll be nothing in it because the source file is empty.
 
-## Setup Bootstrap
+## Set up Bootstrap
 
 1. Add a *Bootstrap* folder to *SASS*. 
 2. Add a *custom* folder to *Bootstrap*.
@@ -98,7 +98,7 @@ A new *site.css* should appear in *wwwroot/css*.  There'll be nothing in it beca
 
 We customize Bootstrap by adding new scss files.  I'm assuming you have a basic understanding of SASS.  If not then do a bit of background reading - it isn't rocket science.
 
-To demonstrate customization, we'll change some of the colours a little and add some new button styles.  Most of this is derived from the [SB2 Bootstrap template](https://startbootstrap.com/theme/sb-admin-2).
+To demonstrate customization, we'll adjust some of the colours and add some new button styles.  Most of the code is derived from the [SB2 Bootstrap template](https://startbootstrap.com/theme/sb-admin-2).
 
 Add *_variables.scss* to *SASS/custom* and add the following content.  You can compare it with the base *SASS/Bootstrap/scss/_variables.scss* to see the differences.
 
@@ -225,7 +225,7 @@ $dropdown-border-color: $border-color !default;
 $enable-rounded: false;
 ```
 
-Add *_overrides.scss* to *SASS/custom* and add the following content.  It demonstrates the sort of changes you can make.
+Add *_overrides.scss* to *SASS/custom* and add the following content.  This demonstrates the sort of changes you can make - we don't actually use it on the site.
 
 ```css
 /* Reduce the default form-group bottom margin*/
@@ -242,7 +242,7 @@ div.alert-sm .alert {
 
 ### Build the Customized Bootstrap
 
-To build a custom version of Bootstrap we need to add the new SASS files into the compile process.
+To build the custom version of Bootstrap, we need to add the new SASS files into the compile process.
 
 Edit *SASS/bootstrap-site.scss*
 
@@ -274,7 +274,7 @@ Run the site and navigate to the counter page to check the button customization.
 
 ## Changing CSS Frameworks
 
-Not everyone wants to use Bootstrap - some people like being a little different!  In this section we'll change over to [**Spectre**](https://picturepan2.github.io/spectre/).
+Not everyone wants to use Bootstrap - some people like their sites being a little different!  In this section we'll change to [Spectre](https://picturepan2.github.io/spectre/).
 
 1. Download the Spectre code from [Github](https://github.com/picturepan2/spectre).
 2. Create a *Spectre* directory in *SASS*.
@@ -307,9 +307,9 @@ Not everyone wants to use Bootstrap - some people like being a little different!
 
 Once you save this you should get a compiled *spectre.css in *wwwroot/css*
 
-### Light Customization
+### Customization
 
-Add *custom* folder to *SASS/Spectre*
+Add folder *custom* to *SASS/Spectre*
 
 Add *_variables.scss*
 
@@ -363,7 +363,7 @@ Finally change *_Host.cshtml* over to the new css.
 
 Run the site.
 
-It will look a little different, and need some work to fix.  Go to the Counter page to see the different buttons - certain Spectre and Bootstrap class names are very similar such as buttons.
+It will look a little different - it needs some work to fix small problems, but basically works.  Go to the Counter page to see the different buttons - Spectre and Bootstrap button class names are very similar so work.
 
 ![spectre buttons](https://github.com/ShaunCurtis/Blazor.CSS/blob/master/images/spectre-buttons.png?raw=true)
 
