@@ -1,6 +1,8 @@
 ﻿# Working with CSS in Blazor
 
-This article takes a look at how CSS is deployed in Blazor and Net5.  It covers:
+This article describes how to customize the default CSS setup in Blazor, and looks at the new Scoped CSS.
+
+It covers:
 
 1. Customizing the deployed BootStrap.
 2. The new Scoped CSS functionality
@@ -12,7 +14,7 @@ The code is avalable at [Blazor.CSS](https://github.com/ShaunCurtis/Blazor.CSS) 
 
 ## Getting Started
 
-1. Create a new Blazor Application.  I've used Server in the supplied code, but this is doesn't matter which.
+1. Create a new Blazor Application using Net5.  I've used Server in the supplied code, but there's no difference between Server and WASM.
 2. Run the site to make sure it works.
 3. Install the [**Web Compiler**](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.WebCompiler)  extension.  Extensions > Manage Extensions.  You'll need to restart Visual Studio to complete the installation.
 
@@ -20,7 +22,7 @@ The code is avalable at [Blazor.CSS](https://github.com/ShaunCurtis/Blazor.CSS) 
 
 1. Add folder *SASS* to the project.
 2. Move *wwwroot/css/site.css* file to *SASS* and rename it *custom.scss*.
-2. Add *site.scss* to the folder.
+2. Add *bootstrap-site.scss* to the folder.
 3. Right mouse click on the file > Web Compiler > Compile File.
 4. This will add a *compilerconfig.json* file to the project.  This controls **Web Compiler**.
 
@@ -28,8 +30,8 @@ The code is avalable at [Blazor.CSS](https://github.com/ShaunCurtis/Blazor.CSS) 
 ```json
 [
   {
-    "outputFile": "SASS/site.css",
-    "inputFile": "SASS/site.scss"
+    "outputFile": "SASS/bootstrap-site.css",
+    "inputFile": "SASS/bootstrap-site.scss"
   }
 ]
 ```
@@ -40,26 +42,24 @@ Change this to output the compiled file into the web site:
 [
   {
     "outputFile": "wwwroot/css/site.css",
-    "inputFile": "SASS/site.scss"
+    "inputFile": "SASS/bootstrap-site.scss"
   }
 ]
 ```
 
 A new *site.css* should appear in *wwwroot/css*.  There'll be nothing in it because the source file is empty.
 
-## Build Bootstrap
-
-To move the Bootstrap build process into the application:
+## Setup Bootstrap
 
 1. Add a *Bootstrap* folder to *SASS*. 
 2. Add a *custom* folder to *Bootstrap*.
-3. Download the Bootstrap Source from the Bootstrap site and copy the SCSS folder to *Bootstrap*.
+3. Download the Bootstrap Source from the Bootstrap site and copy the *scss* folder to *Bootstrap*.
 
     The full SASS folder (including the Spectre and other files that we will add later) should look like this:
 
 ![SASS folder](images/sass-folder.png)
 
-4. Edit *SASS/site.scss*.
+4. Edit *SASS/bootstrap-site.scss*.
 
 ```scss
 /* Source SASS file to build custom Bootstrap site file */
@@ -92,15 +92,15 @@ To move the Bootstrap build process into the application:
 
 ```
 
-7. Run the project.
+7. Run the project.  Everything should be the same as before.
 
 ## Customize Bootstrap
 
-We customize Bootstrap by adding new scss files.  I'm assuming you have a basic understanding of SASS.  If not then do a bit of background reading - SASS isn't rocket science.
+We customize Bootstrap by adding new scss files.  I'm assuming you have a basic understanding of SASS.  If not then do a bit of background reading - it isn't rocket science.
 
-We'll change some of the colours a little and add some new button styles.
+To demonstrate customization, we'll change some of the colours a little and add some new button styles.  Most of this is derived from the [SB2 Bootstrap template](https://startbootstrap.com/theme/sb-admin-2).
 
-Add *_variables.scss* to *SASS/custom* and add the following content.  You can compare it with the base *SASS/Bootstrap/scss/_variables.scss* to see the differences.  Most of these changes are derived from the SB2 Bootstrap template.
+Add *_variables.scss* to *SASS/custom* and add the following content.  You can compare it with the base *SASS/Bootstrap/scss/_variables.scss* to see the differences.
 
 ```scss
 // Override Bootstrap default variables here
@@ -242,9 +242,9 @@ div.alert-sm .alert {
 
 ### Build the Customized Bootstrap
 
-Add the new SASS files into the compile process.
+To build a custom version of Bootstrap we need to add the new SASS files into the compile process.
 
-Edit *SASS/site.scss*
+Edit *SASS/bootstrap-site.scss*
 
 ```css
 /* Source SASS file to build custom Bootstrap site file */
@@ -259,21 +259,114 @@ Edit *SASS/site.scss*
 
 Save and this should compile.
 
-Go to *Pages/Counter.razor* and add a few extra buttons to the page to test the custom styles.
+To see the changes, edit *Pages/Counter.razor* and add a few extra buttons to the page.
 
 ```html
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
 <button class="btn btn-save" @onclick="IncrementCount">Save Styled Click me</button>
-
 <button class="btn btn-delete" @onclick="IncrementCount">Delete Styled Click me</button>
-
 <button class="btn btn-brand" @onclick="IncrementCount">Brand Styled Click me</button>
 ```
 
-Run the site and navigate to the counter page to check the button customization.
+Run the site and navigate to the counter page to check the button customization.  They should look like this:
 
 ![custom buttons](images/custom-buttons.png)
+
+## Changing CSS Frameworks
+
+Not everyone wants to use Bootstrap - some people like being a little different!  In this section we'll change over to [**Spectre**](https://picturepan2.github.io/spectre/).
+
+1. Download the Spectre code from [Github](https://github.com/picturepan2/spectre).
+2. Create a *Spectre* directory in *SASS*.
+3. Create a *scss* directory in *Spectre*.
+4. Copy the contents of *spectre.src* into *SASS/Spectre/scss*.
+5. Create *site-spectre.scss* in *SASS* and add the following code:
+
+```scss
+@import "Spectre/scss/spectre";
+```
+
+6. Edit *compilerconfig.json*
+
+```json
+[
+  {
+    "outputFile": "wwwroot/css/site.css",
+    "inputFile": "SASS/site.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/spectre.css",
+    "inputFile": "SASS/site-spectre.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/spectre-icons.css",
+    "inputFile": "SASS/Spectre/scss/Spectre-icons.scss"
+  }
+]
+```
+
+Once you save this you should get a compiled *spectre.css in *wwwroot/css*
+
+### Light Customization
+
+Add *custom* folder to *SASS/Spectre*
+
+Add *_variables.scss*
+
+```scss
+// Control colors
+$brand-color: #7952b3 !default;
+$exit-color: #66758c !default;
+$save-color: #32b643 !default;
+$delete-color: #e85600 !default;
+
+```
+Add *_buttons.scss*
+
+```scss
+// Button Colors
+.btn {
+    &.btn-exit {
+        @include button-variant($exit-color);
+    }
+    &.btn-brand {
+        @include button-variant($brand-color);
+    }
+    &.btn-delete {
+        @include button-variant($delete-color);
+    }
+}
+```
+
+Edit *SASS/site-spectre.scss*
+
+```scss
+@import "Spectre/custom/_variables";
+@import "Spectre/scss/spectre";
+@import "Spectre/custom/_buttons";
+```
+
+Finally change *_Host.cshtml* over to the new css.
+
+```html
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blazor.CSS</title>
+    <base href="~/" />
+    \\ Link to the new custom Spectre CSS
+    <link href="css/spectre.css" rel="stylesheet" />
+    <link href="Blazor.CSS.styles.css" rel="stylesheet" />
+</head>
+
+```
+
+Run the site.
+
+It will look a little different, and need some work to fix.  Go to the Counter page to see the different buttons - certain Spectre and Bootstrap class names are very similar such as buttons.
+
+![spectre buttons](images/spectre-buttons.png)
+
 
 ## Scoped CSS - Component Styling
 
@@ -281,9 +374,9 @@ A new feature in Net5 is scoped CSS a.k.a. component styling.  Take a look at th
 
 ![component css](images/component-css.png)
 
-To show how this works, we're going to re-style the *FetchData* data table.
+To explore how this works, let's re-style the *FetchData* data table.
 
-1. Add a new Razor Component DataGrid.razor to *Shared*, and add the following code.  It's a modified version of the existing *fetchdata* code.
+1. Add a new Razor component DataGrid.razor to *Shared*, and add the following code - it's a modified version of the existing *fetchdata* code.
 
 ```html
 @using Blazor.CSS.Data
@@ -329,7 +422,7 @@ else
 }
 ```
 
-2. Add *DataGrid.razor.css* to *Shared*.  It should associate with *DataGrid.razor*.
+2. Add *DataGrid.razor.css* to *Shared*.  It should associate with *DataGrid.razor*.  The component specific css goes here.  We're adding some css to format the max column and handle text overflow gracefully.
 
 ```css
 .max-column {
@@ -385,109 +478,19 @@ Open Developer Tools in the browser and take a look at the HTML.
 
 ![Elements](images/browser-elements-view.png)
 
-Note the new unique id attributes.
+Note the new unique ID attribute used on various elements in the HTML.
 
-Look at *Blazor.CSS.styles.css* - the CSS file generated by Blazor during the build process.
+Look at *Blazor.CSS.styles.css* - the CSS file generated by Blazor during the build process.  You can see the css scoped to the components using the unique IDs.
 
 ![sources](images/browser-sources.png)
 
-Finally, look at the *obj* view in Solution Explorer and you can see how it all plugs together. 
+Finally, look at the *obj* view in Solution Explorer in the project.  You can see the specific css files generated for each component and the *bundled* file based on the project name.  This is exposed in the *wwwroot* folder. 
 
 ![obj-view](images/obj-view.png)
 
-## Changing CSS Frameworks
-
-Not everyone wants to use Bootstrap.  In this section we'll change to using **Spectre**.
-
-1. Download the Spectre code from [Github](https://github.com/picturepan2/spectre).
-2. Create a *Spectre* directory in *SASS*.
-3. Copy the contents of *spectre.src* into *SASS/Spectre*.
-4. Edit *compilerconfig.json*
-
-```json
-[
-  {
-    "outputFile": "wwwroot/css/site.css",
-    "inputFile": "SASS/site.scss"
-  },
-  {
-    "outputFile": "wwwroot/css/spectre.css",
-    "inputFile": "SASS/Spectre/Spectre.scss"
-  },
-  {
-    "outputFile": "wwwroot/css/spectre-icons.css",
-    "inputFile": "SASS/Spectre/Spectre-icons.scss"
-  }
-]
-```
-
-Once you save this you should get a compiled *spectre.css in *wwwroot/css*
-
-### Light Customization
-
-Add *custom* folder to *SASS/Spectre*
-
-Add *_variables.scss*
-
-```scss
-// Control colors
-$brand-color: #7952b3 !default;
-$exit-color: #66758c !default;
-$save-color: #32b643 !default;
-$delete-color: #e85600 !default;
-
-```
-Add *_buttons.scss*
-
-```scss
-// Button Colors
-.btn {
-    &.btn-exit {
-        @include button-variant($exit-color);
-    }
-    &.btn-brand {
-        @include button-variant($brand-color);
-    }
-    &.btn-delete {
-        @include button-variant($delete-color);
-    }
-}
-```
-
-Edit *SASS/Spectre/spectre.scss*
-
-```scss
-//  Add to the bottom
-
-// Customization
-@import "custom/_variables";
-@import "custom/_buttons";
-```
-
-Finally change *_Host.cshtml* over to the new css.
-
-```html
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blazor.CSS</title>
-    <base href="~/" />
-    \\ Link to the new custom Spectre CSS
-    <link href="css/spectre.css" rel="stylesheet" />
-    <link href="Blazor.CSS.styles.css" rel="stylesheet" />
-</head>
-
-```
-
-Run the site.
-
-It will look a little different, and need a bit of work to fix.  Go to the Counter page to see the different buttons - certain Spectre and Bootstrap class names are very similar such as buttons.
-
-![spectre buttons](images/spectre-buttons.png)
-
 ## Wrap Up
 
-There are many ways to deploy and use CSS in Blazor.  This is one of many, but probably the simplest.
+There are many ways to deploy and use custom CSS in Blazor.  This is one of many, but probably one of the simplest.
 
 I've covered Scoped CSS here, though I'm not sure how much I'll use it.
 
